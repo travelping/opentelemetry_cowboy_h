@@ -1,0 +1,17 @@
+{application, opentelemetry_cowboy_experimental_h,
+ [{description, "OpenTelemetry instrumentation for the Cowboy HTTP server."},
+  {vsn, "0.1.0"},
+  {registered, []},
+  {applications,
+   [kernel,
+    stdlib,
+    opentelemetry_api,
+    opentelemetry_api_experimental,
+    opentelemetry_cowboy_h
+   ]},
+  {env,[]},
+  {modules, []},
+
+  {licenses, ["Apache-2.0"]},
+  {links, []}
+ ]}.

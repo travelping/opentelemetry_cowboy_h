@@ -1,0 +1,6 @@
+-sname opentelemetry_cowboy_h
+
+-setcookie opentelemetry_cowboy_h_cookie
+
++K true
++A30
