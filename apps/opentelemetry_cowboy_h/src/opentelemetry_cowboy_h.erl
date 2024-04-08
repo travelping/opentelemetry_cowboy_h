@@ -145,16 +145,16 @@ resp_body_size(Data) ->
 
 otel_start_span(Method, Req, Opts) ->
     SpanName = iolist_to_binary([<<"HTTP ">>, Method]),
+    SpanCtx = ?start_span(SpanName, #{kind => ?SPAN_KIND_SERVER}),
     {SpanAttrs, MetricAttrs} =
-        case ?is_recording() orelse is_map_key(metrics_cb, Opts) of
+        case ?is_recording(SpanCtx) orelse is_map_key(metrics_cb, Opts) of
             true ->
                 %% only process the attributes when span is recoding or a metrics_cb is set
                 otel_req_attrs(Req, Opts);
             _ ->
                 {#{}, #{}}
         end,
-    SpanStartOpts = #{attributes => SpanAttrs, kind => ?SPAN_KIND_SERVER},
-    SpanCtx = ?start_span(SpanName, SpanStartOpts),
+    otel_span:set_attributes(SpanCtx, SpanAttrs),
     #state{opts = Opts, span_ctx = SpanCtx, metric_attrs = MetricAttrs}.
 
 otel_init_req(ReqStart, #{method := Method, headers := Headers} = Req, Opts) ->
